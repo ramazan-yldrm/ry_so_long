@@ -4,18 +4,19 @@
 //şimdilik mlx verilerinin karmaşasını ortadan kaldırsın diye bu struct ı tanımlıyorum sonradan entegre edece
 typedef struct s_mlx
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
+	void	*init_p;
+	void	*win_p;
 }	t_mlx;
 
 typedef struct s_map
 {
-	char	**map_2ptr;
-	char	*path_ptr;
-	int		width;
-	int		heigth;
+	char	**map_pp;
+	char	*path_p;
+	int		x;
+	int		y;
 }			t_map;
 
-void	map(t_mlx *mlx, t_map *map);
+void	map_main(t_map *map);
+void	check_arg(t_map *map, char *arg);
 
 #endif
