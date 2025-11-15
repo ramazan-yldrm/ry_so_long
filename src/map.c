@@ -19,19 +19,20 @@ void	sizeof_map(t_map *map)
 		free(map->path_p);
 		exit(1);
 	}
-	map->x = 0;
-	map->y = 1;
+	map->X = 0;
+	map->Y = 0;
 		char *line;
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		if (map->x == 0)
+		if (map->X == 0)
 		{
-			while (line[map->x])
-				map->x++;
+			while (line[map->X])
+				map->X++;
 		}
-		map->y++;
+		map->Y++;
 		free(line);
 	}
+	map->X--;
 	close(fd);
 }
 
@@ -44,11 +45,11 @@ void	read_map(t_map *map)
 	fd = open(map->path_p, O_RDONLY);
 	if (fd == -1)
 		exit(1);
-	map->map_pp = malloc(sizeof(char *) * map->y);
+	map->map_pp = malloc(sizeof(char *) * map->Y);
 	if (!map->map_pp)
 		exit(1);
 	i = 0;
-	while((map->map_pp[i] = get_next_line(fd)) != NULL)
+	while ((map->map_pp[i] = get_next_line(fd)) != NULL)
 	{
 		j = 0;
 		while (map->map_pp[i][j])
@@ -63,47 +64,87 @@ void	read_map(t_map *map)
 	close(fd);
 }
 
-void	check_map(t_map *map)
+int	is_map_square(t_map *map)
 {
 	int	i;
 	int	j;
-	int k;
-	int	count_x;
-	int	count_y;
 
 	i = 0;
 	while (map->map_pp[i])
 	{
 		j = 0;
-		count_x = 0;
-		count_y = 0;
-		if (map->x > map->y)
-		{
-			while (map->map_pp[i][j])
-			{
-				if(map->map_pp[i][j] == '1')
-					count_x++;
-				else
-					count_x = 0;
-				while (map->map_pp[i][j] >= 3)
-				{
-					k = i;
-					if (map->map_pp[k][j] == '1')
-						count_y++;
-					else
-						break ;
-					k++;
-				}
-				j++;
-			}
-		}
-		else
-		{
+		while (map->map_pp[i][j])
+			j++;
+		if (j != map->X)
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
+int	is_edges_close(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map->map_pp[i])
+	{
+		j = 0;
+		while (map->map_pp[i][j])
+		{
+			if (map->map_pp[0][j] != '1')
+				return (0);
+			if (map->map_pp[map->Y - 1][j] != '1')
+				return (0);
+			if (map->map_pp[i][0] != '1')
+				return (0);
+			if (map->map_pp[i][map->X - 1] != '1')
+				return (0);
+			j++;
 		}
 		i++;
 	}
-	printf("      count x : %d | count y : %d\n", count_x, count_y);
+	return (1);
+}
+
+void take_elemans(t_map *map)
+{
+	int	i;
+	int	j;
+
+	map->P = 0;
+	map->C = 0;
+	map->E = 0;
+	i = 0;
+	while (map->map_pp[i])
+	{
+		j = 0;
+		while (map->map_pp[i][j])
+		{
+			if (map->map_pp[i][j] == 'P')
+				map->P++;		
+			if (map->map_pp[i][j] == 'C')
+				map->C++;
+			if (map->map_pp[i][j] == 'E')
+				map->E++;
+			j++;
+		}
+		i++;
+	}
+
+	printf("      player : %d\n      collect : %d\n      exit : %d\n", map->P, map->C, map->E);
+}
+
+int check_map_arg(t_map *map)
+{
+	if (map->P != 1)
+		return (0);
+	if (map->E != 1)
+		return (0);
+	if (map->C < 1)
+		return (0);
+	return (1);
 }
 
 /* void	draw_map(t_mlx *mlx, char **map_pp)
@@ -139,11 +180,24 @@ void	check_map(t_map *map)
 
 void	map_main(t_map *map)
 {
+	int a;
+	int b;
+	int c;
+
 	sizeof_map(map);
 
 	read_map(map);
 
-	printf("      map_x: %d, map_y: %d\n", map->x, map->y);
+	printf("      map_X: %d, map_Y: %d\n", map->X, map->Y);
 
-	check_map(map);
+	a = is_map_square(map);
+
+	b = is_edges_close(map);
+
+		take_elemans(map);
+
+	c = check_map_arg(map);
+	printf("      is_map_square : %d, is_edges_one : %d\n", a, b);
+	printf("      check_map_arg : %d\n", c);
+
 }

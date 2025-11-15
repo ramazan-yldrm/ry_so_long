@@ -12,8 +12,11 @@ typedef struct s_map
 {
 	char	**map_pp;
 	char	*path_p;
-	int		x;
-	int		y;
+	int		X;
+	int		Y;
+	int		P;
+	int		C;
+	int		E;
 }			t_map;
 
 void	map_main(t_map *map);
