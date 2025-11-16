@@ -14,7 +14,6 @@ void	sizeof_map(t_map *map)
 	fd = open(map->path_p, O_RDONLY);
 	if (fd == -1)
 	{
-		//hata yönetimi sonradan düzeltilecek
 		write(2, "Error\nfile not found\n", 22);
 		free(map->path_p);
 		exit(1);
@@ -82,7 +81,7 @@ int	is_map_square(t_map *map)
 	return (1);
 }
 
-int	is_edges_close(t_map *map)
+int	is_map_close(t_map *map)
 {
 	int	i;
 	int	j;
@@ -91,24 +90,25 @@ int	is_edges_close(t_map *map)
 	while (map->map_pp[i])
 	{
 		j = 0;
-		while (map->map_pp[i][j])
-		{
-			if (map->map_pp[0][j] != '1')
-				return (0);
-			if (map->map_pp[map->Y - 1][j] != '1')
-				return (0);
-			if (map->map_pp[i][0] != '1')
-				return (0);
-			if (map->map_pp[i][map->X - 1] != '1')
-				return (0);
-			j++;
-		}
+		if (map->X != 0)
+			while (map->map_pp[i][j])
+			{
+				if (map->map_pp[0][j] != '1')
+					return (0);
+				if (map->map_pp[map->Y - 1][j] != '1')
+					return (0);
+				if (map->map_pp[i][0] != '1')
+					return (0);
+				if (map->map_pp[i][map->X - 1] != '1')
+					return (0);
+				j++;
+			}
 		i++;
 	}
 	return (1);
 }
 
-void take_elemans(t_map *map)
+int take_map_args(t_map *map)
 {
 	int	i;
 	int	j;
@@ -123,20 +123,25 @@ void take_elemans(t_map *map)
 		while (map->map_pp[i][j])
 		{
 			if (map->map_pp[i][j] == 'P')
+			{
+				map->player_X = j;
+				map->player_Y = i;
 				map->P++;		
-			if (map->map_pp[i][j] == 'C')
+			}
+			else if (map->map_pp[i][j] == 'C')
 				map->C++;
-			if (map->map_pp[i][j] == 'E')
+			else if (map->map_pp[i][j] == 'E')
 				map->E++;
+			else if (map->map_pp[i][j] != '0' && map->map_pp[i][j] != '1')
+				return (0);
 			j++;
 		}
 		i++;
 	}
-
-	printf("      player : %d\n      collect : %d\n      exit : %d\n", map->P, map->C, map->E);
+	return (1);
 }
 
-int check_map_arg(t_map *map)
+int	check_map_args(t_map *map)
 {
 	if (map->P != 1)
 		return (0);
@@ -147,7 +152,7 @@ int check_map_arg(t_map *map)
 	return (1);
 }
 
-/* void	draw_map(t_mlx *mlx, char **map_pp)
+void	draw_map(t_mlx *mlx, t_map *map)
 {
 	char	*img_p;
 	int		img_width;
@@ -156,48 +161,51 @@ int check_map_arg(t_map *map)
 	int		j;
 
 	i = 0;
-	while (map_pp[i])
+	while (map->map_pp[i])
 	{
 		j = 0;
-		while (map_pp[i][j] != '\0')
+		while (map->map_pp[i][j] != '\0')
 		{
-			if (map_pp[i][j] == '1')
+			if (map->map_pp[i][j] == '1')
 				img_p = mlx_xpm_file_to_image(mlx->init_p, "textures/wall.xpm", &img_width, &img_height);
-			else if (map_pp[i][j] == '0')
+			else if (map->map_pp[i][j] == '0')
 				img_p = mlx_xpm_file_to_image(mlx->init_p, "textures/way.xpm", &img_width, &img_height);
-			else if (map_pp[i][j] == 'P')
+			else if (map->map_pp[i][j] == 'P')
 				img_p = mlx_xpm_file_to_image(mlx->init_p, "textures/player.xpm", &img_width, &img_height);
-			else if (map_pp[i][j] == 'C')
+			else if (map->map_pp[i][j] == 'C')
 				img_p = mlx_xpm_file_to_image(mlx->init_p, "textures/collettible.xpm", &img_width, &img_height);
-			else if (map_pp[i][j] == 'E')
+			else if (map->map_pp[i][j] == 'E')
 				img_p = mlx_xpm_file_to_image(mlx->init_p, "textures/exit.xpm", &img_width, &img_height);
 			mlx_put_image_to_window(mlx->init_p, mlx->win_p, img_p, j * 64, i * 64);
 			j++;
 		}
 		i++;
 	}
-} */
+}
 
-void	map_main(t_map *map)
+void	map_main(t_mlx *mlx, t_map *map)
 {
-	int a;
-	int b;
-	int c;
-
 	sizeof_map(map);
-
 	read_map(map);
-
-	printf("      map_X: %d, map_Y: %d\n", map->X, map->Y);
-
-	a = is_map_square(map);
-
-	b = is_edges_close(map);
-
-		take_elemans(map);
-
-	c = check_map_arg(map);
-	printf("      is_map_square : %d, is_edges_one : %d\n", a, b);
-	printf("      check_map_arg : %d\n", c);
-
+	if (take_map_args(map) == 0)
+	{
+		write(2, "Error1\n", 6);
+		exit(1);
+	}
+	if (check_map_args(map) == 0)
+	{
+		write(2, "Error2\n", 6);
+		exit(1);
+	}
+	if (is_map_close(map) == 0)
+	{
+		write(2, "Error3\n", 6);
+		exit(1);
+	}
+	if (is_map_square(map) == 0)
+	{
+		write(2, "Error4\n", 6);
+		exit(1);
+	}
+	draw_map(mlx, map);
 }

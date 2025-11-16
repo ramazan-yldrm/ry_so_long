@@ -17,9 +17,11 @@ typedef struct s_map
 	int		P;
 	int		C;
 	int		E;
+	int		player_X;
+	int		player_Y;
 }			t_map;
 
-void	map_main(t_map *map);
+void	map_main(t_mlx *mlx, t_map *map);
 void	check_arg(t_map *map, char *arg);
 
 #endif

@@ -9,6 +9,7 @@
 int main(int ac, char *av[])
 {
  	t_map	map;
+	t_mlx	mlx;
 
 	if (ac != 2)
 	{
@@ -16,11 +17,7 @@ int main(int ac, char *av[])
 		return (1);
 	}
 	check_arg(&map, av[1]);
-	
-	printf("\n      ------ SO_LONG ------\n");
-	printf("      pathof_map : %s\n", map.path_p);
-	
-	map_main(&map);
-	
-	printf("\n");
+	mlx.init_p = mlx_init();
+	map_main(&mlx, &map);
+	mlx_loop(mlx.init_p);
 }
