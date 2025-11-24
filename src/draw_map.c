@@ -4,6 +4,21 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+
+void    destroy_textures(t_game *game)
+{
+    if (game->wall_texture)
+        mlx_destroy_image(game->init, game->wall_texture);
+    if (game->floor_texture)
+        mlx_destroy_image(game->init, game->floor_texture);
+    if (game->player_texture)
+        mlx_destroy_image(game->init, game->player_texture);
+    if (game->coin_texture)
+        mlx_destroy_image(game->init, game->coin_texture);
+    if (game->exit_texture)
+        mlx_destroy_image(game->init, game->exit_texture);
+}
+
 void load_textures(t_game *game)
 {
     int width;

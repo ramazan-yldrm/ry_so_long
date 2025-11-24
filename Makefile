@@ -8,6 +8,7 @@ SRC =	src/main.c \
 		src/draw_map.c \
 		src/read_map.c	\
 		src/moves.c \
+		src/utils.c \
 		get_next_line/get_next_line.c \
         get_next_line/get_next_line_utils.c
 OBJ = $(SRC:.c=.o)

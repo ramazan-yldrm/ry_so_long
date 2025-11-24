@@ -31,13 +31,17 @@ void sizeof_map(t_map *map)
     close(fd);
 }
 
-static void read_map_data_errors(int status, int closeble)
+static void read_map_data_errors(int status, int closeble, char *path)
 {
     if (status == 0)
+    {
         write(2, "Error\nread_map/open : -1\n", 25);
+        free(path);
+    }
     else
     {
         write(2, "Error\nmap_read/malloc/map->data: NULL", 37);
+        free(path);
         close(closeble);
     }
     exit(1);
@@ -51,10 +55,10 @@ void read_map_data(t_map *map)
 
     fd = open(map->path, O_RDONLY);
     if (fd == -1)
-        read_map_data_errors(0, 0);
+        read_map_data_errors(0, 0, map->path);
     map->data = malloc(sizeof(char *) * (map->height + 1));
     if (!map->data)
-        read_map_data_errors(1, fd);
+        read_map_data_errors(1, fd, map->path);
     i = 0;
     while ((map->data[i] = get_next_line(fd)))
     {
@@ -68,6 +72,7 @@ void read_map_data(t_map *map)
         i++;
     }
     map->data[i] = NULL;
+    free(map->path);
     close(fd);
 }
 
@@ -78,7 +83,7 @@ static void	save_player_loc(t_map *map, int x, int y)
 	map->player++;
 }
 
-int read_map_args(t_map *map)
+void read_map_args(t_map *map)
 {
 	int	i;
 	int	j;
@@ -99,10 +104,13 @@ int read_map_args(t_map *map)
 			else if (map->data[i][j] == 'E')
 				map->exit++;
 			else if (map->data[i][j] != '0' && map->data[i][j] != '1')
-				return (0);
+			{
+                write(2, "Error\nUndefined map args\n", 25);
+                free_all(map->data);
+                exit(1);
+            }
 			j++;
 		}
 		i++;
 	}
-	return (1);
 }

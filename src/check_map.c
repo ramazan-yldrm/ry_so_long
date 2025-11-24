@@ -1,4 +1,6 @@
 #include "../includes/so_long.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 static int is_map_square(t_map *map)
 {
@@ -45,17 +47,36 @@ static int is_map_close(t_map *map)
     return (1);
 }
 
-int check_map(t_map *map)
+void check_map(t_map *map)
 {
     if (is_map_square(map) == 0)
-        return (0);
+    {
+        write(2, "Error\nmap not square\n", 21);
+        free_all(map->data);
+        exit(1);
+    }
     if(is_map_close(map) == 0)
-        return(0);
+    {
+        write(2, "Error\nmap not square\n", 21);
+        free_all(map->data);
+        exit(1);
+    }
     if (map->player != 1)
-        return (0);
+    {
+        write(2, "Error\nmap not square\n", 21);
+        free_all(map->data);
+        exit(1);
+    }
     if (map->exit != 1)
-        return (0);
+    {
+        write(2, "Error\nmap not square\n", 21);
+        free_all(map->data);
+        exit(1);
+    }
     if (map->coin < 1)
-        return (0);
-    return (1);
+    {
+        write(2, "Error\nmap not square\n", 21);
+        free_all(map->data);
+        exit(1);
+    }
 }

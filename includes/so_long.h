@@ -33,10 +33,13 @@ void draw_map(t_game *game);
 void sizeof_map(t_map *map);
 void read_map_data(t_map *map);
 void load_textures(t_game *game);
+void read_map_args(t_map *map);
+void check_map(t_map *map);
+void destroy_textures(t_game *game);
+void free_all(char **str);
 
-int check_map(t_map *map);
-int read_map_args(t_map *map);
 int catch_key(int keycode, t_game *game);
+int close_game(t_game *game);
 int close_game(t_game *game);
 
 #endif
