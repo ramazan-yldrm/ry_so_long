@@ -1,20 +1,21 @@
 NAME = so_long
-CFLAGS = -Wall -Wextra -Werror
-SRC =	src/main.c \
-		src/check_arg.c \
-		src/map.c
-OBJ = $(SRC:.c=.o)
-
 MLXLIB = mlx/libmlx.a
-MLXFLAGS = -L./mlx -lmlx -lXext -lX11 -lm -lbsd
-
-GET_NEXT_LINE = get_next_line/*.c
 LIBFT = libft/libft.a
+CFLAGS = -Wall -Wextra -Werror
+MLXFLAGS = -L./mlx -lmlx -lXext -lX11 -lm -lbsd
+SRC =	src/main.c \
+		src/check_map.c \
+		src/draw_map.c \
+		src/read_map.c	\
+		src/moves.c \
+		get_next_line/get_next_line.c \
+        get_next_line/get_next_line_utils.c
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(MLXLIB) $(LIBFT)
-	cc $(CFLAGS) $(OBJ) $(MLXFLAGS) $(GET_NEXT_LINE) $(LIBFT) -o $(NAME)
+	cc $(CFLAGS) $(OBJ) $(MLXFLAGS) $(LIBFT) -o $(NAME)
 
 $(MLXLIB):
 	make -C ./mlx
