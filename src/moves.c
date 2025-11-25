@@ -6,11 +6,12 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:51:26 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/24 20:51:54 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/25 09:59:56 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+#include "../ft_printf/libftprintf.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -34,7 +35,7 @@ void	move_up(t_game *game)
 	if (game->map.data[y][x] != 'E')
 		game->map.data[y][x] = 'P';
 	game->map.step++;
-	printf("step:%d\n", game->map.step);
+	ft_printf("step:%d\n", game->map.step);
 	draw_map(game);
 }
 
@@ -58,7 +59,7 @@ void	move_down(t_game *game)
 	if (game->map.data[y][x] != 'E')
 		game->map.data[y][x] = 'P';
 	game->map.step++;
-	printf("step:%d\n", game->map.step);
+	ft_printf("step:%d\n", game->map.step);
 	draw_map(game);
 }
 
@@ -82,7 +83,7 @@ void	move_left(t_game *game)
 	if (game->map.data[y][x] != 'E')
 		game->map.data[y][x] = 'P';
 	game->map.step++;
-	printf("step:%d\n", game->map.step);
+	ft_printf("step:%d\n", game->map.step);
 	draw_map(game);
 }
 
@@ -106,7 +107,7 @@ void	move_right(t_game *game)
 	if (game->map.data[y][x] != 'E')
 		game->map.data[y][x] = 'P';
 	game->map.step++;
-	printf("step:%d\n", game->map.step);
+	ft_printf("step:%d\n", game->map.step);
 	draw_map(game);
 }
 

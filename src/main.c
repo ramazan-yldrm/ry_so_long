@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:45:17 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/24 21:17:47 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/25 01:25:01 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static void	check_args(t_map *map, char *av)
 	int		fd;
 	int		len;
 
-	path = ft_strjoin("maps/", av);
+	path = ft_strdup(av);
 	if (!path)
 		check_args_error("Error\narg_check/ft_strjoin: NULL\n", NULL);
 	len = ft_strlen(av);
-	if (len < 4 || ft_strncmp(av + len - 4, ".ber", 4) != 0)
-		check_args_error("Error\ninvalid file format <file.ber>\n", path);
+	if (len < 5 || ft_strncmp(av + len - 4, ".ber", 4) != 0)
+		check_args_error("Error\ninvalid file format <maps/file.ber>\n", path);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		check_args_error("Error\nfile not found\n", path);

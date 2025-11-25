@@ -6,13 +6,24 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:43:09 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/24 21:27:31 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/25 10:06:43 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include <stdlib.h>
 #include <unistd.h>
+
+static char	**free_map(char **copy, int i)
+{
+	while (i - 1 >= 0)
+	{
+		free(copy[i - 1]);
+		i--;
+	}
+	free(copy);
+	return (NULL);
+}
 
 static char	**copy_map(t_map *map)
 {
@@ -28,7 +39,7 @@ static char	**copy_map(t_map *map)
 	{
 		copy[i] = malloc(map->width + 1);
 		if (!copy[i])
-			return (NULL);
+			return (free_map(copy, i));
 		j = 0;
 		while (j < map->width)
 		{
@@ -57,7 +68,7 @@ static void	flood_fill(char **map, int y, int x, t_map *orig)
 
 static void	check_path_error(void)
 {
-	write(2, "Error\ncopy_map: NULL\n", 22);
+	write(2, "Error\ncopy_map: NULL\n", 21);
 	exit(1);
 }
 

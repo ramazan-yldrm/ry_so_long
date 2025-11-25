@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:52:40 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/24 22:38:04 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/25 01:14:42 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ void	read_map_data(t_map *map)
 		while ((map->data[i][j] != '\0'))
 		{
 			if (map->data[i][j] == '\n')
-				map->data[i][j++] = '\0';
+				map->data[i][j] = '\0';
+			j++;
 		}
 		map->data[++i] = get_next_line(fd);
 	}
 	map->data[i] = NULL;
-	free(map->path);
 	close(fd);
 }
 
@@ -102,6 +102,7 @@ void	read_map_args(t_map *map)
 	int	i;
 	int	j;
 
+	free(map->path);
 	map->player = 0;
 	map->exit = 0;
 	map->coin = 0;
