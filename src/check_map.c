@@ -6,13 +6,12 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:27:41 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/25 09:54:32 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:54:13 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include <stdlib.h>
-#include <unistd.h>
 
 static int	is_map_square(t_map *map)
 {

@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:45:17 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/25 01:25:01 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/27 19:11:48 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	check_args(t_map *map, char *av)
 	if (!path)
 		check_args_error("Error\narg_check/ft_strjoin: NULL\n", NULL);
 	len = ft_strlen(av);
-	if (len < 5 || ft_strncmp(av + len - 4, ".ber", 4) != 0)
+	if (ft_strncmp(av + len - 4, ".ber", 4) != 0)
 		check_args_error("Error\ninvalid file format <maps/file.ber>\n", path);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
@@ -60,19 +60,20 @@ static void	countinue(t_game *game)
 		free_all(game->map.data);
 		exit(1);
 	}
+	load_textures(game);
 	game->win = mlx_new_window(\
 		game->init, game->map.width * 64, game->map.height * 64, "so_long");
 	if (!game->win)
 	{
-		write(2, "Error\nMLX window creation failed\n", 34);
+		write(2, "Error\nMLX window creation failed\n", 33);
+		destroy_textures(game);
 		mlx_destroy_display(game->init);
 		free(game->init);
 		free_all(game->map.data);
 		exit(1);
 	}
-	load_textures(game);
 	draw_map(game);
-	mlx_hook(game->win, 2, 1L << 0, catch_key, game);
+	mlx_hook(game->win, 2, 1, catch_key, game);
 	mlx_hook(game->win, 17, 0, close_game, game);
 	mlx_loop(game->init);
 }

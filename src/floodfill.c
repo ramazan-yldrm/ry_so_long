@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:43:09 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/25 10:06:43 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/25 20:12:55 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,23 @@ static char	**copy_map(t_map *map)
 	return (copy);
 }
 
-static void	flood_fill(char **map, int y, int x, t_map *orig)
+static void	flood_fill(char **map_data, int y, int x, t_map *map)
 {
-	if (y < 0 || x < 0 || y >= orig->height || x >= orig->width)
+	if (y < 0 || x < 0 || y >= map->height || x >= map->width)
 		return ;
-	if (map[y][x] == '1' || map[y][x] == 'F')
+	if (map_data[y][x] == '1' || map_data[y][x] == 'V')
 		return ;
-	map[y][x] = 'F';
-	flood_fill(map, y + 1, x, orig);
-	flood_fill(map, y - 1, x, orig);
-	flood_fill(map, y, x + 1, orig);
-	flood_fill(map, y, x - 1, orig);
+	map_data[y][x] = 'V';
+	flood_fill(map_data, y + 1, x, map);
+	flood_fill(map_data, y - 1, x, map);
+	flood_fill(map_data, y, x + 1, map);
+	flood_fill(map_data, y, x - 1, map);
 }
 
-static void	check_path_error(void)
+static int	check_path_error(void)
 {
 	write(2, "Error\ncopy_map: NULL\n", 21);
-	exit(1);
+	return (0);
 }
 
 int	check_path(t_map *map)
