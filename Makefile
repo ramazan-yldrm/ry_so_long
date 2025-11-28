@@ -3,7 +3,7 @@ MLXLIB = mlx/libmlx.a
 LIBFT = libft/libft.a
 FT_PRINTF = ft_printf/libftprintf.a
 CFLAGS = -Wall -Wextra -Werror
-MLXFLAGS = -L./mlx -lmlx -lXext -lX11
+MLXFLAGS = mlx/libmlx.a -lXext -lX11
 SRC =	src/main.c \
 		src/check_map.c \
 		src/draw_map.c \
