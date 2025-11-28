@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:43:09 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/28 22:23:55 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/28 22:47:08 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ static char	**copy_map(t_map *map)
 	int		i;
 	int		j;
 
-	//copy = malloc(sizeof(char *) * (map->height + 1));
-	copy = NULL;
+	copy = malloc(sizeof(char *) * (map->height + 1));
 	if (!copy)
 		return (NULL);
 	i = 0;
