@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:43:09 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/25 20:12:55 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/28 22:23:55 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static char	**copy_map(t_map *map)
 	int		i;
 	int		j;
 
-	copy = malloc(sizeof(char *) * (map->height + 1));
+	//copy = malloc(sizeof(char *) * (map->height + 1));
+	copy = NULL;
 	if (!copy)
 		return (NULL);
 	i = 0;
@@ -66,10 +67,11 @@ static void	flood_fill(char **map_data, int y, int x, t_map *map)
 	flood_fill(map_data, y, x - 1, map);
 }
 
-static int	check_path_error(void)
+static void	check_path_error(t_map *map)
 {
 	write(2, "Error\ncopy_map: NULL\n", 21);
-	return (0);
+	free_all(map->data);
+	exit (1);
 }
 
 int	check_path(t_map *map)
@@ -80,7 +82,7 @@ int	check_path(t_map *map)
 
 	copy = copy_map(map);
 	if (!copy)
-		check_path_error();
+		check_path_error(map);
 	flood_fill(copy, map->player_loc[0], map->player_loc[1], map);
 	i = 0;
 	while (i < map->height)
