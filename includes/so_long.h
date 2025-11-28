@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:19:45 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/25 13:56:26 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/29 01:09:42 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	destroy_textures(t_game *game);
 void	free_all(char **str);
 
 int		catch_key(int keycode, t_game *game);
-int		close_game(t_game *game);
 int		close_game(t_game *game);
 int		check_path(t_map *map);
 void	map_error(char *str, char **map_data);
