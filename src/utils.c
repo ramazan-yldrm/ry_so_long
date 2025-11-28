@@ -6,7 +6,7 @@
 /*   By: ryildiri <ryildiri@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 21:01:46 by ryildiri          #+#    #+#             */
-/*   Updated: 2025/11/25 18:56:47 by ryildiri         ###   ########.fr       */
+/*   Updated: 2025/11/29 01:13:02 by ryildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	free_all(char **str)
 {
 	int	i;
 
+	if (!str)
+		return ;
 	i = 0;
 	while (str[i] != NULL)
 	{
